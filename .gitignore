@@ -1,0 +1,76 @@
+# ========================
+# SYSTEM FILES
+# ========================
+.DS_Store
+Thumbs.db
+*.log
+
+# ========================
+# NODE / MERN
+# ========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production build
+build/
+dist/
+.next/
+out/
+
+# Env variables
+.env
+.env.local
+.env.*.local
+
+# ========================
+# PYTHON / DATA SCIENCE
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ========================
+# ML / MODEL FILES
+# ========================
+*.h5
+*.pt
+*.pkl
+*.joblib
+
+# ========================
+# IDE / EDITORS
+# ========================
+.vscode/
+.idea/
+*.swp
+
+# ========================
+# DATABASE FILES
+# ========================
+*.sqlite
+*.db
+
+# ========================
+# OS TEMP
+# ========================
+.cache/
+.temp/
+
+# ========================
+# UPLOADS / USER FILES
+# ========================
+uploads/
+
+# ========================
+# GIT
+# ========================
+.git/
