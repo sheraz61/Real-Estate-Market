@@ -20,11 +20,22 @@ const userSlice=createSlice({
         signInFailure:(state,action)=>{
             state.error=action.payload;
             state.loading=false
-        }
+        },setCurrentUser(state, action) {
+      state.currentUser = action.payload;
+    },
+    updateAvatar(state, action) {
+      if (state.currentUser) {
+        state.currentUser = {
+          ...state.currentUser,
+          avatar: action.payload, // immutable update
+        };
+      }
+    },
 
     }
 });
 
-export const {signInStart,signInFailure,signInSuccess} =userSlice.actions
+export const {signInStart,signInFailure,signInSuccess, setCurrentUser,
+  updateAvatar,} =userSlice.actions
 
 export default  userSlice.reducer
