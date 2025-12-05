@@ -3,9 +3,11 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import userRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
+import cookieParser from "cookie-parser";
 dotenv.config()
 const app = express()
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log('Connect to database')
 }).catch((err)=>{
@@ -21,7 +23,7 @@ app.get('/',(req,res)=>{
 
 app.use('/api/user',userRouter)
 app.use('/api/auth',authRouter)
-
+app.use(cookieParser());
 //middleware
 
 app.use((err,req,res,next)=>{
