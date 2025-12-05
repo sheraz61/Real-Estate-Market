@@ -13,7 +13,11 @@ const userSchema=new mongoose.Schema({
     password:{
          type:String,
         required:true,
-    }
+    },
+    avatar:{
+        type:String,
+        default:"https://st.depositphotos.com/2101611/3925/v/950/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"
+    },
 },{timestamps:true})
 
 const User=mongoose.model('User',userSchema)
