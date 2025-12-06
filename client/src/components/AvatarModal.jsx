@@ -1,14 +1,14 @@
 import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { updateAvatar } from "../redux/user/userSlice.js"
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserSuccess,updateUserFailure,updateUserStart } from "../redux/user/userSlice.js"
 export default function AvatarModal({ isOpen, onClose, currentAvatar }) {
   
   const fileRef = useRef(null);
-  
+  const {loading}=useSelector(state=>state.user)
   const dispatch=useDispatch()
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [loading, setLoading] = useState(false);
+
 
 
   // Select image & preview
@@ -26,8 +26,7 @@ export default function AvatarModal({ isOpen, onClose, currentAvatar }) {
     if (!file) return;
 
     try {
-      setLoading(true);
-
+      dispatch(updateUserStart())
       const form = new FormData();
       form.append("image", file);
 
@@ -36,18 +35,17 @@ export default function AvatarModal({ isOpen, onClose, currentAvatar }) {
         body: form,
       });
       const data=await res.json()
-
       // Close modal after success
       if (data.success){
-        dispatch(updateAvatar(data.avatar))
+        dispatch(updateUserSuccess(data))
         onClose();
+      }else{
+        dispatch(updateUserFailure(data.message))
       }
 
     } catch (err) {
-      console.error("Upload failed:", err);
-    } finally {
-      setLoading(false);
-    }
+      dispatch(updateUserFailure(err.message))
+    } 
   };
 
 

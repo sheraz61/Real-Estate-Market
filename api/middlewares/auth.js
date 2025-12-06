@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 export const verifyToken = (req, res, next) => {
   try {
     const cookieHeader = req.headers.cookie; // "access_token=eyJhbGci..."
+    
     if (!cookieHeader) {
       return res.status(401).json({ message: "No token" });
     }

@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import cloudinary from "../config/cloudinary.js";
 import { errorHandler } from "../utils/error.js";
 import bcrypt from 'bcrypt'
+
 export const uploadImage = async (req, res, next) => {
   try {
 
@@ -41,7 +42,6 @@ export const uploadImage = async (req, res, next) => {
 };
 
 export const updateUser= async(req,res,next)=>{
-  console.log(req.user.id);
     try {
       if(req.user.id!==req.params.id){
     return next(errorHandler(401,'You can only update your own account'))
@@ -54,14 +54,14 @@ export const updateUser= async(req,res,next)=>{
           username:req.body.username,
           email:req.body.email,
           password:req.body.password,
-          avatar:req.body.avatar
+          
         }
       },{new:true})
       const {password,...rest}=updateUser._doc;
 res.status(200).json({
   message:'Update Info Successfully',
   success:true,
-  rest
+  ...rest
 })
     } catch (error) {
       next(error)

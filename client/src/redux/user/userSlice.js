@@ -20,22 +20,26 @@ const userSlice=createSlice({
         signInFailure:(state,action)=>{
             state.error=action.payload;
             state.loading=false
-        },setCurrentUser(state, action) {
+        },
+        setCurrentUser(state, action) {
       state.currentUser = action.payload;
     },
-    updateAvatar(state, action) {
-      if (state.currentUser) {
-        state.currentUser = {
-          ...state.currentUser,
-          avatar: action.payload, // immutable update
-        };
-      }
+    updateUserStart:(state)=>{
+      state.loading=true
     },
+    updateUserSuccess:(state,action)=>{
+      state.currentUser=action.payload
+      state.loading=false,
+      state.error=null
+    },
+    updateUserFailure:(state,action)=>{
+      state.error=action.payload
+      state.loading=false
+    }
 
     }
 });
 
-export const {signInStart,signInFailure,signInSuccess, setCurrentUser,
-  updateAvatar,} =userSlice.actions
+export const {signInStart,signInFailure,signInSuccess, setCurrentUser,updateUserFailure,updateUserStart,updateUserSuccess} =userSlice.actions
 
 export default  userSlice.reducer
