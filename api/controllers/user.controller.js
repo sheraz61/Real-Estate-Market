@@ -68,3 +68,25 @@ res.status(200).json({
       next(error)
     }
   }
+
+
+export const deleteUser=async(req,res,next)=>{
+  try {
+     const userId=req.user.id;
+     const user=await User.findById(req.params.id)
+     if(!user){
+      return next(errorHandler(404,'User not found'))
+     }
+  if (user._id!==userId){
+    return next(errorHandler(401,'You can only delete your own account'))
+  }
+  await User.findByIdAndDelete(req.params.id)
+  res.status(200).json({
+    message:'User has been deleted',
+    success:true
+  })
+  } catch (error) {
+    next(error)
+  }
+ 
+}
