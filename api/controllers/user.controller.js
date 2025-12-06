@@ -68,16 +68,15 @@ res.status(200).json({
       next(error)
     }
   }
-
-
 export const deleteUser=async(req,res,next)=>{
   try {
-     const userId=req.user.id;
+    
+    const userId=req.user.id;
      const user=await User.findById(req.params.id)
      if(!user){
       return next(errorHandler(404,'User not found'))
      }
-  if (user._id!==userId){
+  if (req.params.id!==userId){
     return next(errorHandler(401,'You can only delete your own account'))
   }
   await User.findByIdAndDelete(req.params.id)
