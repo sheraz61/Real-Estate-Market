@@ -29,11 +29,12 @@ export const uploadImage = async (req, res, next) => {
     user.public_id = req.file.filename;
 
     await user.save();
-
+const {password,...rest}=user._doc
     // Success response
     res.status(200).json({
+      message:'avatar updated successfully',
       success: true,
-      avatar: user.avatar,
+      ...rest
     });
 
   } catch (error) {

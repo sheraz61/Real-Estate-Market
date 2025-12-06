@@ -21,9 +21,6 @@ const userSlice=createSlice({
             state.error=action.payload;
             state.loading=false
         },
-        setCurrentUser(state, action) {
-      state.currentUser = action.payload;
-    },
     updateUserStart:(state)=>{
       state.loading=true
     },
