@@ -1,57 +1,71 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import AvatarModal from "../components/AvatarModal";
 import { useDispatch } from "react-redux";
-import { updateUserFailure,updateUserStart,updateUserSuccess,deleteUserFailure,deleteUserStart,deleteUserSuccess } from "../redux/user/userSlice.js";
+import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from "../redux/user/userSlice.js";
 function Profile() {
-  const { currentUser,loading,error} = useSelector(state => state.user);
+  const { currentUser, loading, error } = useSelector(state => state.user);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
-  const dispatch=useDispatch()
-  const [formdata,setFormdata]=useState({})
-  const [updateSuccess,setUpdateSuccess]=useState(false)
-  const handleChange=(e)=>{
+  const dispatch = useDispatch()
+  const [formdata, setFormdata] = useState({})
+  const [updateSuccess, setUpdateSuccess] = useState(false)
+  const handleChange = (e) => {
     setFormdata({
-      ...formdata,[e.target.id]:e.target.value
+      ...formdata, [e.target.id]: e.target.value
     })
 
   }
-  const handleSubmit= async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       dispatch(updateUserStart())
-      const res=await fetch(`/api/user/update/${currentUser._id}`,{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        body:JSON.stringify(formdata)
+        body: JSON.stringify(formdata)
       })
-      const data=await res.json()
-      if (data.success==false){
+      const data = await res.json()
+      if (data.success == false) {
         dispatch(updateUserFailure(data.message))
         return
       }
       dispatch(updateUserSuccess(data))
-    setUpdateSuccess(true)
+      setUpdateSuccess(true)
     } catch (error) {
       dispatch(updateUserFailure(error.message))
     }
   }
-  const handleDeleteUser=async()=>{
-try {
-  dispatch(deleteUserStart())
-  const res=await fetch(`/api/user/delete/${currentUser._id}`,{
-    method:'DELETE'
-  })
-  const data=await res.json()
-  if (data.success===false){
-    dispatch(deleteUserFailure(data.message))
-    return
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart())
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE'
+      })
+      const data = await res.json()
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message))
+        return
+      }
+      dispatch(deleteUserSuccess(data))
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message))
+    }
   }
-  dispatch(deleteUserSuccess(data))
-} catch (error) {
-  dispatch(deleteUserFailure(error.message))
-}
+  const handleLogoutUser = async () => {
+    try {
+      dispatch(signOutUserStart)
+      const res = await fetch('/api/auth/signout')
+      const data = res.json()
+      if (data.success == false) {
+        dispatch(signOutUserFailure(data.message))
+        return
+      }
+      dispatch(signOutUserSuccess(data))
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message))
+    }
   }
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -76,7 +90,7 @@ try {
 
       {/* PROFILE FORM */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
-        <input 
+        <input
           type="text"
           placeholder="Username"
           id="username"
@@ -102,15 +116,15 @@ try {
         />
 
         <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3">
-          {loading?'Loading...':'Update'}
+          {loading ? 'Loading...' : 'Update'}
         </button>
       </form>
       <div className="flex justify-between mt-5">
-<span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
-<span className="text-red-700 cursor-pointer">Sign out</span>
+        <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
+        <span onClick={handleLogoutUser} className="text-red-700 cursor-pointer">Sign out</span>
       </div>
-      <p className="text-red-700 mt-5">{error ? error:''}</p>
-      <p className="text-green-700 mt-5">{updateSuccess ? 'User is updated Successfully':''}</p>
+      <p className="text-red-700 mt-5">{error ? error : ''}</p>
+      <p className="text-green-700 mt-5">{updateSuccess ? 'User is updated Successfully' : ''}</p>
     </div>
   );
 }
