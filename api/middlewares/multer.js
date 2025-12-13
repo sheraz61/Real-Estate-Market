@@ -6,7 +6,13 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
     // Default folder
-    let folder = 'estateProfile';
+      let folder = 'misc';
+    // Logic to determine folder
+    if (req.uploadTarget === 'listing') {
+      folder = 'estateListing';
+    } else if (req.uploadTarget === 'user') {
+      folder = 'estateProfile';
+    }
     return {
       folder,
       allowed_formats: ['jpeg', 'png', 'jpg'],

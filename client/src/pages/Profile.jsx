@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import AvatarModal from "../components/AvatarModal";
 import { useDispatch } from "react-redux";
+import {Link} from 'react-router-dom'
 import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from "../redux/user/userSlice.js";
 function Profile() {
   const { currentUser, loading, error } = useSelector(state => state.user);
@@ -118,6 +119,7 @@ function Profile() {
         <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3">
           {loading ? 'Loading...' : 'Update'}
         </button>
+        <Link className="bg-green-700 text-white rounded-lg uppercase text-center hover:opacity-95 hover:cursor-pointer p-3" to={'/create-listing'}>Create Listing</Link>
       </form>
       <div className="flex justify-between mt-5">
         <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>

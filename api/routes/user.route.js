@@ -2,7 +2,7 @@ import express from 'express'
 import upload from '../middlewares/multer.js';
 import { uploadImage ,updateUser,deleteUser} from '../controllers/user.controller.js';
 import {verifyToken} from '../middlewares/auth.js'
-
+import { setUploadTarget } from '../middlewares/setUploadTarget.js';
 const router=express.Router();
 
 
@@ -12,6 +12,7 @@ router.get('/test',(req,res)=>{
 router.put(
   "/avatar",
   verifyToken,
+  setUploadTarget('user'),
   upload.single("image"),
   uploadImage
 );
