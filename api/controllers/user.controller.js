@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Listing from "../models/listing.model.js";
 import cloudinary from "../config/cloudinary.js";
 import { errorHandler } from "../utils/error.js";
 import bcrypt from 'bcrypt'
@@ -89,4 +90,17 @@ export const deleteUser=async(req,res,next)=>{
     next(error)
   }
  
+}
+
+export const getUserListing=async(req,res,next)=>{
+  try {
+    if (req.user.id === req.params.id){
+const listings=await Listing.find({userRef:req.params.id})
+res.status(200).json(listings)
+    }else{
+      return next(errorHandler(401,'You can only view your own listings'))
+    }
+  } catch (error) {
+    next(error)
+  }
 }
