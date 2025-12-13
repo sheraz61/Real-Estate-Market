@@ -80,6 +80,9 @@ export const deleteUser=async(req,res,next)=>{
   if (req.params.id!==userId){
     return next(errorHandler(401,'You can only delete your own account'))
   }
+   if (user.public_id) {
+      await cloudinary.uploader.destroy(user.public_id);
+    }
   await User.findByIdAndDelete(req.params.id)
   res.clearCookie('access_token')
   res.status(200).json({
