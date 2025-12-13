@@ -10,5 +10,5 @@ router.post('/create',
      setUploadTarget('listing'),
       upload.array('images', 6), 
       createListing)
-router.delete('/delete',verifyToken,deleteListing)
+router.delete('/delete/:id',verifyToken,deleteListing)
 export default router
