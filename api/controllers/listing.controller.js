@@ -76,12 +76,24 @@ export const updateListing = async (req, res, next) => {
       return res.status(200).json(updateListing)
     }
     const updatedListing = await Listing.findByIdAndUpdate(
-      id.params.id,
+      req.params.id,
       req.body,
       { new: true }
     )
     res.status(200).json(updatedListing)
 
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getListing = async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id)
+    if (!listing) {
+      return next(errorHandler(404, 'No listing found'))
+    }
+    res.status(200).json(listing)
   } catch (error) {
     next(error)
   }
