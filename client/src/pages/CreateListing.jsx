@@ -114,8 +114,7 @@ const handleRemoveImage = (index) => {
             } else {
                 // Clean up preview URLs before navigating
                 imagePreviews.forEach(url => URL.revokeObjectURL(url))
-                // navigate(`/listing/${result._id}`)
-                navigate('/profile')
+                navigate(`/listing/${result._id}`)
             }
         } catch (error) {
             setError(error.message)

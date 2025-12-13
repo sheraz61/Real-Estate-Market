@@ -163,8 +163,7 @@ function UpdateListing() {
                 setError(result.message)
             } else {
                 imagePreviews.forEach(url => URL.revokeObjectURL(url))
-                // navigate(`/listing/${result._id}`)
-                navigate('/profile')
+                navigate(`/listing/${result._id}`)
             }
         } catch (error) {
             setError(error.message)
